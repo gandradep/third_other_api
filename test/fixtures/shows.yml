@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  date: 2024-03-20
+  description: MyText
+  picture: MyString
+  venue: one
+
+two:
+  title: MyString
+  date: 2024-03-20
+  description: MyText
+  picture: MyString
+  venue: two

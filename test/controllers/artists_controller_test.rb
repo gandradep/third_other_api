@@ -12,7 +12,7 @@ class ArtistsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create artist" do
     assert_difference("Artist.count") do
-      post artists_url, params: { artist: { bio: @artist.bio, image_url: @artist.image_url, music_link: @artist.music_link, name: @artist.name } }, as: :json
+      post artists_url, params: { artist: { bio: @artist.bio, image_url: @artist.image_url, name: @artist.name } }, as: :json
     end
 
     assert_response :created
@@ -24,7 +24,7 @@ class ArtistsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update artist" do
-    patch artist_url(@artist), params: { artist: { bio: @artist.bio, image_url: @artist.image_url, music_link: @artist.music_link, name: @artist.name } }, as: :json
+    patch artist_url(@artist), params: { artist: { bio: @artist.bio, image_url: @artist.image_url, name: @artist.name } }, as: :json
     assert_response :success
   end
 

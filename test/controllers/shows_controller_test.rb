@@ -12,7 +12,7 @@ class ShowsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create show" do
     assert_difference("Show.count") do
-      post shows_url, params: { show: { date: @show.date, description: @show.description, picture: @show.picture, title: @show.title, venue_id: @show.venue_id } }, as: :json
+      post shows_url, params: { show: { date: @show.date, description: @show.description, picture: @show.picture, show_recording_link: @show.show_recording_link, time: @show.time, title: @show.title, url_flyer: @show.url_flyer, venue_id: @show.venue_id } }, as: :json
     end
 
     assert_response :created
@@ -24,7 +24,7 @@ class ShowsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update show" do
-    patch show_url(@show), params: { show: { date: @show.date, description: @show.description, picture: @show.picture, title: @show.title, venue_id: @show.venue_id } }, as: :json
+    patch show_url(@show), params: { show: { date: @show.date, description: @show.description, picture: @show.picture, show_recording_link: @show.show_recording_link, time: @show.time, title: @show.title, url_flyer: @show.url_flyer, venue_id: @show.venue_id } }, as: :json
     assert_response :success
   end
 

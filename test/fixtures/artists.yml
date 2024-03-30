@@ -3,11 +3,9 @@
 one:
   name: MyString
   image_url: MyString
-  music_link: MyString
   bio: MyText
 
 two:
   name: MyString
   image_url: MyString
-  music_link: MyString
   bio: MyText

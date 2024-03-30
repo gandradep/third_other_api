@@ -2,14 +2,20 @@
 
 one:
   title: MyString
-  date: 2024-03-20
+  date: 2024-03-30
+  time: 2024-03-30 15:31:29
   description: MyText
   picture: MyString
+  url_flyer: MyString
+  show_recording_link: MyString
   venue: one
 
 two:
   title: MyString
-  date: 2024-03-20
+  date: 2024-03-30
+  time: 2024-03-30 15:31:29
   description: MyText
   picture: MyString
+  url_flyer: MyString
+  show_recording_link: MyString
   venue: two

@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  description: MyString
+  recording_link: MyString
+  url_picture_show: MyString
+  show: one
+
+two:
+  description: MyString
+  recording_link: MyString
+  url_picture_show: MyString
+  show: two

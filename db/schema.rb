@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_04_01_115631) do
+ActiveRecord::Schema[7.0].define(version: 2024_04_11_040039) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -34,7 +34,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_01_115631) do
 
   create_table "performances", force: :cascade do |t|
     t.string "description"
-    t.string "recording_link"
     t.string "url_picture_show"
     t.bigint "show_id", null: false
     t.datetime "created_at", null: false
@@ -44,10 +43,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_01_115631) do
 
   create_table "shows", force: :cascade do |t|
     t.string "title"
-    t.date "date"
-    t.time "time"
+    t.time "date_time"
     t.text "description"
-    t.string "picture"
     t.string "url_flyer"
     t.string "show_recording_link"
     t.bigint "venue_id", null: false
@@ -58,7 +55,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_01_115631) do
 
   create_table "venues", force: :cascade do |t|
     t.string "name"
-    t.string "url"
+    t.string "url_location"
     t.string "city"
     t.string "country"
     t.datetime "created_at", null: false

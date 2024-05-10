@@ -3,8 +3,9 @@ class ShowsController < ApplicationController
 
   # GET /shows
   def index
-    @shows = Show.all
-
+    @shows = Show.includes(performances: :artists)
+                 .all
+                 .as_json(include: { performances: { include: :artists } })
     render json: @shows
   end
 

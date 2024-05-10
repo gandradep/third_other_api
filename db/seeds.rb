@@ -19,9 +19,10 @@ sillaTurca = Artist.create(
   bio:         'I like to use sound recording’s as the main object in the composition, and add on top some noise, using different synths.',
   music_links: ['https://soundcloud.com/sillaturca']
 )
+
 third_8 = Show.create(
   title:              'The Third Other 8',
-  date_time:          Time.utc(2023, 7, 30, 19, 0, 0) + 8 * 3600,
+  event_date:          Time.new(2023, 7, 30, 19, 0, 0, "+08:00"),
   description:        'the 8th session of Improvisors improvising another evening of the unexpectedly unexpected! ',
   url_flyer:          'https://drive.google.com/file/d/1dWkFNCk95fx7FDLfOlj94Ue15HyCEunO/view?usp=sharing',
   show_recording_link:'https://thethirdother.bandcamp.com/album/the-third-other-8',

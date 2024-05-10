@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_04_11_040039) do
+ActiveRecord::Schema[7.0].define(version: 2024_05_10_040212) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -43,13 +43,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_04_11_040039) do
 
   create_table "shows", force: :cascade do |t|
     t.string "title"
-    t.time "date_time"
     t.text "description"
     t.string "url_flyer"
     t.string "show_recording_link"
     t.bigint "venue_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "event_date", precision: nil
     t.index ["venue_id"], name: "index_shows_on_venue_id"
   end
 

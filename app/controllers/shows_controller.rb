@@ -3,9 +3,16 @@ class ShowsController < ApplicationController
 
   # GET /shows
   def index
-    @shows = Show.includes(performances: :artists)
+    @shows = Show.includes(:venue, performances: :artists)
                  .all
-                 .as_json(include: { performances: { include: :artists } })
+                 .as_json(
+                  except: [:id, :created_at, :updated_at],
+                  include: {
+                    venue: {except: [:id, :created_at, :updated_at]},
+                    performances: { include: :artists }
+                  })
+
+
     render json: @shows
   end
 

@@ -1,3 +1,5 @@
+# This controller handles actions related to Shows.
+
 class ShowsController < ApplicationController
   before_action :set_show, only: %i[ show update destroy ]
 
@@ -6,16 +8,16 @@ class ShowsController < ApplicationController
     @shows = Show.includes(:venue, performances: :artists)
                  .all
                  .as_json(
-                  except: [:id, :created_at, :updated_at, :venue_id],
-                  include: {
-                    venue: {except: [:id, :created_at, :updated_at]},
-                    performances: {
-                      include: {
-                        artists: {except: [:id, :created_at, :updated_at]}
-                      }
-                    }
-                  })
-
+                   except: %i[id created_at updated_at venue_id],
+                   include: {
+                     venue: { except: %i[id created_at updated_at] },
+                     performances: {
+                       include: {
+                         artists: { except: %i[id created_at updated_at] }
+                       }
+                     }
+                   }
+                 )
     render json: @shows
   end
 

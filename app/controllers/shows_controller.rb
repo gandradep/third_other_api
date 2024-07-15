@@ -28,23 +28,29 @@ class ShowsController < ApplicationController
 
   # POST /shows
   def create
-    @show = Show.new(show_params)
+    if params[:new_venue].present?
+      @venue = Venue.new(new_venue_params)
 
-    # Check if new_venue parameters are present
-    if show_params[:new_venue].present?
-      @venue = Venue.new(show_params[:new_venue])
       if @venue.save
+        @show = Show.new(show_params)
         @show.venue_id = @venue.id
+
+        if @show.save
+          render json: @show, status: :created, location: @show
+        else
+          render json: @show.errors, status: :unprocessable_entity
+        end
       else
         render json: @venue.errors, status: :unprocessable_entity
-        return
       end
-    end
-
-    if @show.save
-      render json: @show, status: :created, location: @show
     else
-      render json: @show.errors, status: :unprocessable_entity
+      @show = Show.new(show_params)
+
+      if @show.save
+        render json: @show, status: :created, location: @show
+      else
+        render json: @show.errors, status: :unprocessable_entity
+      end
     end
   end
 
@@ -63,16 +69,23 @@ class ShowsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+
     def set_show
       @show = Show.find(params[:id])
     end
 
-    # Only allow a list of trusted parameters through.
+
+    # Strong parameters for Show model
     def show_params
       params.require(:show).permit(
-        :title, :description, :url_flyer, :show_recording_link, :event_date, :venue_id,
-        new_venue: [:name, :url_location, :city, :country]
+        :title, :description, :url_flyer, :show_recording_link, :event_date, :venue_id
+      )
+    end
+
+  # Strong parameters for new_venue
+    def new_venue_params
+      params.require(:new_venue).permit(
+        :name, :url_location, :city, :country
       )
     end
 end

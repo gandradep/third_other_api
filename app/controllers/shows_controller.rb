@@ -8,7 +8,7 @@ class ShowsController < ApplicationController
     @shows = Show.includes(:venue, performances: :artists)
                  .all
                  .as_json(
-                   except: %i[id created_at updated_at],
+                   except: %i[created_at updated_at],
                    include: {
                      venue: { except: %i[created_at updated_at] },
                      performances: {

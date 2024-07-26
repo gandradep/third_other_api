@@ -21,6 +21,7 @@ sillaTurca = Artist.create(
 third_8 = Show.create(
   title:              'The Third Other 8',
   event_date:          Time.new(2023, 7, 30, 19, 0, 0, "+08:00"),
+  time_zone: 'Asia/Taipei',
   description:        'the 8th session of Improvisors improvising another evening of the unexpectedly unexpected! ',
   url_flyer:          'https://drive.google.com/file/d/1dWkFNCk95fx7FDLfOlj94Ue15HyCEunO/view?usp=sharing',
   show_recording_link:'https://thethirdother.bandcamp.com/album/the-third-other-8',

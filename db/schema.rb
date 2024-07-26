@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_05_10_040212) do
+ActiveRecord::Schema[7.0].define(version: 2024_07_26_074806) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -50,6 +50,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_10_040212) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "event_date", precision: nil
+    t.string "time_zone"
     t.index ["venue_id"], name: "index_shows_on_venue_id"
   end
 

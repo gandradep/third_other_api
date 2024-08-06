@@ -24,8 +24,7 @@ class ShowsController < ApplicationController
     shows = Show.includes(:venue, performances: :artists).all
 
     shows_with_formatted_dates = shows.map do |show|
-      time_zone = show.time_zone || 'UTC'  # Default to UTC if no time zone is specified
-      event_date_in_timezone = show.event_date.in_time_zone(time_zone).strftime('%Y-%m-%d %H:%M:%S')
+      event_date_in_timezone = show.event_date.strftime('%Y-%m-%d %H:%M:%S')
 
       show.as_json(
         except: %i[created_at updated_at],
@@ -39,7 +38,6 @@ class ShowsController < ApplicationController
         }
       ).merge(
         event_date: event_date_in_timezone,
-        time_zone: time_zone  # Include the time zone in the response
       )
     end
 
@@ -53,6 +51,7 @@ class ShowsController < ApplicationController
 
   # POST /shows
   def create
+    Rails.logger.info "Received show_params: #{show_params.inspect}"
     if params[:new_venue].present?
       @venue = Venue.new(new_venue_params)
 
@@ -61,7 +60,7 @@ class ShowsController < ApplicationController
         @show.venue_id = @venue.id
 
         if @show.save
-          render json: @show, status: :created, location: @show
+          render_show(@show)
         else
           render json: @show.errors, status: :unprocessable_entity
         end
@@ -70,9 +69,10 @@ class ShowsController < ApplicationController
       end
     else
       @show = Show.new(show_params)
+      Rails.logger.info "Finalf show object before save: #{@show.inspect}"
 
       if @show.save
-        render json: @show, status: :created, location: @show
+        render_show(@show)
       else
         render json: @show.errors, status: :unprocessable_entity
       end
@@ -99,12 +99,14 @@ class ShowsController < ApplicationController
       @show = Show.find(params[:id])
     end
 
+    def render_show(show)
+      render json: show.as_json
+    end
 
     # Strong parameters for Show model
     def show_params
       params.require(:show).permit(:title, :description, :url_flyer, :show_recording_link, :event_date, :time_zone, :venue_id)
     end
-
 
   # Strong parameters for new_venue
     def new_venue_params

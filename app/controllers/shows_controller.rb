@@ -4,29 +4,18 @@ class ShowsController < ApplicationController
   before_action :set_show, only: %i[ show update destroy ]
 
   # GET /shows
-  # def index
-  #   @shows = Show.includes(:venue, performances: :artists)
-  #                .all
-  #                .as_json(
-  #                  except: %i[created_at updated_at],
-  #                  include: {
-  #                    venue: { except: %i[created_at updated_at] },
-  #                    performances: {
-  #                      include: {
-  #                        artists: { except: %i[id created_at updated_at] }
-  #                      }
-  #                    }
-  #                  }
-  #                )
-  #   render json: @shows
-  # end
   def index
-    shows = Show.includes(:venue, performances: :artists).all
+    Rails.logger.info "Type of @shows: #{ @shows.class }"
 
-    shows_with_formatted_dates = shows.map do |show|
-      event_date_in_timezone = show.event_date.strftime('%Y-%m-%d %H:%M:%S')
+    @shows = Show.includes(:venue, performances: :artists).all
 
-      show.as_json(
+    # Retrieve the time zone parameter from the request or a default
+    time_zone_str = params[:time_zone] || 'UTC'
+    time_zone = ActiveSupport::TimeZone[time_zone_str]
+
+    # Convert the event_date from UTC to the specified time zone
+    shows_with_converted_dates = @shows.map do |show|
+      show_as_json = show.as_json(
         except: %i[created_at updated_at],
         include: {
           venue: { except: %i[created_at updated_at] },
@@ -36,12 +25,15 @@ class ShowsController < ApplicationController
             }
           }
         }
-      ).merge(
-        event_date: event_date_in_timezone,
       )
+
+      # Convert event_date from UTC to the specified time zone
+      event_date_local = show.event_date.in_time_zone(time_zone).strftime('%Y-%m-%dT%H:%M:%S')
+
+      show_as_json.merge(event_date: event_date_local)
     end
 
-    render json: shows_with_formatted_dates
+    render json: shows_with_converted_dates
   end
 
   # GET /shows/1
@@ -52,6 +44,7 @@ class ShowsController < ApplicationController
   # POST /shows
   def create
     Rails.logger.info "Received show_params: #{show_params.inspect}"
+
     if params[:new_venue].present?
       @venue = Venue.new(new_venue_params)
 
@@ -69,7 +62,7 @@ class ShowsController < ApplicationController
       end
     else
       @show = Show.new(show_params)
-      Rails.logger.info "Finalf show object before save: #{@show.inspect}"
+      Rails.logger.info "Final show object before save: #{@show.inspect}"
 
       if @show.save
         render_show(@show)
@@ -78,7 +71,6 @@ class ShowsController < ApplicationController
       end
     end
   end
-
   # PATCH/PUT /shows/1
   def update
     if @show.update(show_params)
@@ -114,4 +106,5 @@ class ShowsController < ApplicationController
         :name, :url_location, :city, :country
       )
     end
+
 end

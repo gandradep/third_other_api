@@ -16,7 +16,7 @@ class PerformancesController < ApplicationController
   # POST /performances
   def create
     @performance = Performance.new(performance_params)
-
+    @performance.show_id = params[:show_id]
     if @performance.save
       render json: @performance, status: :created, location: @performance
     else
